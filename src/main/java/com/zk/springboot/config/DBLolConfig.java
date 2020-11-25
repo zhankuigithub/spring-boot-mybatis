@@ -20,7 +20,7 @@ public class DBLolConfig {
 
     @Bean("dbLolDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.db-lol")
-    public DataSource getDb1DataSource(){
+    public DataSource getDb1DataSource() {
         return DataSourceBuilder.create().build();
     }
 
@@ -33,7 +33,7 @@ public class DBLolConfig {
     }
 
     @Bean("dbLolSqlSessionTemplate")
-    public SqlSessionTemplate db1SqlSessionTemplate(@Qualifier("dbLolSqlSessionFactory") SqlSessionFactory sqlSessionFactory){
+    public SqlSessionTemplate db1SqlSessionTemplate(@Qualifier("dbLolSqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 

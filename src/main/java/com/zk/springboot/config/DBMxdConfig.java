@@ -23,7 +23,7 @@ public class DBMxdConfig {
     @Primary
     @Bean("dbMxdDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.db-mxd")
-    public DataSource getDb1DataSource(){
+    public DataSource getDb1DataSource() {
         return DataSourceBuilder.create().build();
     }
 
@@ -38,7 +38,7 @@ public class DBMxdConfig {
 
     @Primary
     @Bean("dbMxdSqlSessionTemplate")
-    public SqlSessionTemplate db1SqlSessionTemplate(@Qualifier("dbMxdSqlSessionFactory") SqlSessionFactory sqlSessionFactory){
+    public SqlSessionTemplate db1SqlSessionTemplate(@Qualifier("dbMxdSqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 
