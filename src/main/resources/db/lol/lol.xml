@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zk.springboot.db.lol.mapper.DBLolMapper">
+
+    <resultMap id="equipMap" type="com.zk.springboot.db.lol.bean.Equip">
+        <result column="equip_id" property="equipID"/>
+        <result column="equip_name" property="equipName"/>
+        <result column="insert_dt" property="insertDT"/>
+    </resultMap>
+
+    <select id="list" resultMap="equipMap">
+        select * from t_equip
+    </select>
+
+</mapper>

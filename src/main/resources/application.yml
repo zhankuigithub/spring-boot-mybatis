@@ -1,0 +1,15 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    db-mxd:
+      jdbc-url: jdbc:mysql://localhost:3306/db_mxd?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    db-lol:
+      jdbc-url: jdbc:mysql://localhost:3306/db_lol?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=GMT%2B8
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
