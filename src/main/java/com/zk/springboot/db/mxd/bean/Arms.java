@@ -15,6 +15,12 @@ public class Arms implements Serializable {
     @JsonProperty("insert_dt")
     private String insertDT;
 
+    public Arms(int armsID, String armsName, String insertDT) {
+        this.armsID = armsID;
+        this.armsName = armsName;
+        this.insertDT = insertDT;
+    }
+
     public int getArmsID() {
         return armsID;
     }

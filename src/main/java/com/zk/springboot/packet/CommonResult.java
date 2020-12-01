@@ -2,6 +2,7 @@ package com.zk.springboot.packet;
 
 public class CommonResult<T> implements IPacket {
     private int code;
+    private String message = "操作成功";
     private T data;
 
     public CommonResult() {
@@ -24,9 +25,17 @@ public class CommonResult<T> implements IPacket {
         this.data = data;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public int getCode() {
-        return 0;
+        return 200;
     }
 
     @Override
