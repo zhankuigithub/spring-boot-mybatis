@@ -15,10 +15,10 @@ import javax.annotation.Resource;
 public class MxdController {
 
     // 下列2个用法一样
-    @Resource(name = "IMxdServerImpl2")
+    @Resource(name = "MxdServerImpl2")
     private IMxdService mIMxdService;
 
-//    @Autowired
+//    @Autowirede
 //    @Qualifier("IMxdServerImpl2")
 //    private  IMxdService mIMxdService;
 

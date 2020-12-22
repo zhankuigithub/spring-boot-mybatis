@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zk.springboot.db.sys.mapper.DBSysMapper">
+
+    <resultMap id="doctorMap" type="com.zk.springboot.db.sys.bean.Doctor">
+        <result column="doc_id" property="doctorID"/>
+        <result column="good_disease" property="goodDisease"/>
+        <result column="doc_name" property="doctorName"/>
+        <result column="avatar" property="avatarUrl"/>
+        <result column="gender" property="gender"/>
+        <result column="department_id" property="departmentID"/>
+        <result column="department" property="department"/>
+        <result column="tn_hosp_id" property="hospitalID"/>
+        <result column="hospital" property="hospital"/>
+        <result column="province_id" property="provinceID"/>
+        <result column="province_name" property="province"/>
+        <result column="area" property="city"/>
+    </resultMap>
+
+
+    <select id="getAllDoctor" resultMap="doctorMap">
+        SELECT doc_id, good_disease, province_name, area, department FROM t_doctor_info
+    </select>
+
+    <select id="getDoctorByID" resultMap="doctorMap">
+        SELECT
+        doc_id,
+        doc_name,
+        avatar,
+        gender,
+        department_id,
+        department,
+        tn_hosp_id,
+        hospital,
+        province_id,
+        province_name,
+        area
+        FROM
+        t_doctor_info
+        <where>
+            doc_id in
+            <foreach collection="list" item="docID" open="(" close=")" separator=",">
+                #{docID}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>

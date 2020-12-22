@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Component
-public class ILolServiceImpl implements ILolService {
+public class LolServiceImpl implements ILolService {
 
     @Resource
     private DBLolMapper mDBLolMapper;

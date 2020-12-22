@@ -1,21 +1,17 @@
 package com.zk.springboot.util;
 
-import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class MD5Utils {
     /**
      * 默认的密码字符串组合，用来将字节转换成 16 进制表示的字符,apache校验下载的文件的正确性用的就是默认的这个组合
      */
-    protected static char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a',
-            'b', 'c', 'd', 'e', 'f'};
+    protected static char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     /**
      * 生成字符串的md5校验值
@@ -105,176 +101,4 @@ public class MD5Utils {
         stringbuffer.append(c1);
     }
 
-    /**
-     * 使用AES加密
-     *
-     * @param content   要加密的字符串
-     * @param keyString 密钥
-     * @return 加密后的字符串
-     */
-    public static String encryptByAES(String content, String keyString) {
-        try {
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
-            SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG", "Crypto");
-            secureRandom.setSeed(keyString.getBytes());
-            kgen.init(128, secureRandom);
-            SecretKey secretKey = kgen.generateKey();
-            byte[] enCodeFormat = secretKey.getEncoded();
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
-            Cipher cipher = Cipher.getInstance("AES");// 创建密码器
-            byte[] byteContent = content.getBytes("utf-8");
-            cipher.init(Cipher.ENCRYPT_MODE, key);// 初始化
-            byte[] result = cipher.doFinal(byteContent); // 加密
-            return parseByte2HexStr(result);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return content;
-    }
-
-    /**
-     * 使用AES解密
-     *
-     * @param content   要解密的字符串
-     * @param keyString 密钥
-     * @return
-     */
-    public static String decryptByAES(String content, String keyString) {
-        try {
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
-            SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG", "Crypto");
-            secureRandom.setSeed(keyString.getBytes());
-            kgen.init(128, secureRandom);
-            SecretKey secretKey = kgen.generateKey();
-            byte[] enCodeFormat = secretKey.getEncoded();
-            SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            byte[] result = cipher.doFinal(parseHexStr2Byte(content));
-            return new String(result);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
-            e.printStackTrace();
-        } catch (BadPaddingException e) {
-            e.printStackTrace();
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return content;
-    }
-
-    /**
-     * 将二进制转换成16进制
-     *
-     * @param buf
-     * @return
-     */
-    public static String parseByte2HexStr(byte buf[]) {
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < buf.length; i++) {
-            String hex = Integer.toHexString(buf[i] & 0xFF);
-            if (hex.length() == 1) {
-                hex = '0' + hex;
-            }
-            sb.append(hex.toUpperCase());
-        }
-        return sb.toString();
-    }
-
-    /**
-     * 将16进制转换为二进制
-     *
-     * @param hexStr
-     * @return
-     */
-    public static byte[] parseHexStr2Byte(String hexStr) {
-        if (hexStr.length() < 1)
-            return null;
-        byte[] result = new byte[hexStr.length() / 2];
-        for (int i = 0; i < hexStr.length() / 2; i++) {
-            int high = Integer.parseInt(hexStr.substring(i * 2, i * 2 + 1), 16);
-            int low = Integer.parseInt(hexStr.substring(i * 2 + 1, i * 2 + 2), 16);
-            result[i] = (byte) (high * 16 + low);
-        }
-        return result;
-    }
-
-    /**
-     * SHA 256加密
-     */
-    public static String encryptSHA256(String str) {
-        MessageDigest messageDigest;
-        String encodeStr = "";
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-256");
-            messageDigest.update(str.getBytes("UTF-8"));
-            encodeStr = parseByte2HexStr(messageDigest.digest());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return encodeStr;
-    }
-
-    /**
-     * AES 256加密
-     * @param hashKey
-     * @param hashIv
-     * @param value
-     * @return
-     */
-    public static String encryptAES256(String hashKey, String hashIv, String value) {
-        try {
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            SecretKeySpec sKeySpec = new SecretKeySpec(hashKey.getBytes("UTF-8"), "AES");
-            IvParameterSpec iv = new IvParameterSpec(hashIv.getBytes("UTF-8"));
-            cipher.init(Cipher.ENCRYPT_MODE, sKeySpec, iv);
-            byte[] bytes = cipher.doFinal(value.getBytes());
-            return parseByte2HexStr(bytes);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * AES 256解密
-     * @param hashKey
-     * @param hashIv
-     * @param value
-     * @return
-     */
-    public static String decryptAES256(String hashKey, String hashIv, String value) {
-        try {
-            Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
-            SecretKeySpec sKeySpec = new SecretKeySpec(hashKey.getBytes("UTF-8"), "AES");
-            IvParameterSpec iv = new IvParameterSpec(hashIv.getBytes("UTF-8"));
-            cipher.init(Cipher.DECRYPT_MODE, sKeySpec, iv);
-            byte[] bytes = cipher.doFinal(parseHexStr2Byte(value));
-            return new String(bytes);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }

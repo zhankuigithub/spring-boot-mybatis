@@ -4,7 +4,7 @@ import com.zk.springboot.service.IRedisService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IRedisServiceImpl implements IRedisService {
+public class RedisServiceImpl implements IRedisService {
 
 //    @Resource
 //    private RedisTemplate redisTemplate;

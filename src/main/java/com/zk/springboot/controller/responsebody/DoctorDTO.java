@@ -1,4 +1,4 @@
-package com.zk.springboot.controller.responseDTO;
+package com.zk.springboot.controller.responsebody;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
